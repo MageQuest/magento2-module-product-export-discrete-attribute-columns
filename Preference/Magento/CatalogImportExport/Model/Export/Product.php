@@ -41,6 +41,9 @@ class Product extends ExportProduct
     /**
      * Append multi row data
      *
+     * Overridden purely to change the multi select separator to the pseudo separator (|)
+     * so attributes are exported in the correct (and a re-importable) format
+     *
      * @param array $dataRow
      * @param array $multiRawData
      * @return array
@@ -142,7 +145,12 @@ class Product extends ExportProduct
             foreach (array_keys($this->collectedMultiselectsData[$storeId][$productId]) as $attrKey) {
                 if (!empty($this->collectedMultiselectsData[$storeId][$productId][$attrKey])) {
                     $dataRow[$attrKey] = implode(
-                        Import::DEFAULT_GLOBAL_MULTI_VALUE_SEPARATOR,
+                    /** Preference Modification Start */
+                    // Change to pseudo separator so multi select attributes in individual columns are
+                    // correctly formatted and can be re-imported without further modification
+                    // Old separator - Import::DEFAULT_GLOBAL_MULTI_VALUE_SEPARATOR
+                        ImportProduct::PSEUDO_MULTI_LINE_SEPARATOR,
+                        /** Preference Modification End */
                         $this->collectedMultiselectsData[$storeId][$productId][$attrKey]
                     );
                 }
@@ -183,6 +191,9 @@ class Product extends ExportProduct
 
     /**
      * Get export data for collection
+     *
+     * Note: this method is overridden purely because it calls the private
+     * method appendMultirowData() that is modified above
      *
      * @return array
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
