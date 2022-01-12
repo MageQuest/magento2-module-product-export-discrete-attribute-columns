@@ -8,5 +8,11 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
-    <module name="MageQuest_ProductExportDiscreteAttributeColumns"/>
+    <module name="MageQuest_ProductExportDiscreteAttributeColumns">
+        <sequence>
+            <module name="Magento_CatalogImportExport"/>
+            <module name="Magento_ImportExport"/>
+            <module name="Magento_Store"/>
+        </sequence>
+    </module>
 </config>
